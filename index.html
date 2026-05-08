@@ -4,635 +4,362 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hermes Agent — Trợ lý AI Đa Nền Tảng</title>
-    <meta name="description" content="Hermes Agent — trợ lý AI tự động chạy trên terminal, Telegram, Discord. Ghi nhớ mọi thứ, học từ kinh nghiệm, làm việc 24/7.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        
+
         :root {
-            --viettel: #EE0033;
-            --viettel-dark: #CC0029;
-            --navy: #0F172A;
-            --navy-mid: #1E293B;
-            --navy-light: #334155;
+            --red: #EE0033;
+            --red-dark: #CC0029;
+            --navy: #1A1F3A;
+            --navy-deep: #0F172A;
             --cyan: #00D4FF;
             --purple: #7C3AED;
-            --white: #F8FAFC;
-            --text-muted: #94A3B8;
-            --card-bg: rgba(255,255,255,0.04);
-            --card-border: rgba(255,255,255,0.08);
+            --white: #FFFFFF;
+            --gray-light: #F8F9FB;
         }
-        
+
         html { scroll-behavior: smooth; }
-        
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            color: var(--white);
             line-height: 1.6;
             overflow-x: hidden;
-            background: var(--navy);
+            background: #8B001C;
         }
-        
         h1, h2, h3, h4 { font-family: 'Be Vietnam Pro', sans-serif; }
         a { text-decoration: none; }
-        
         .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
-        
+
         .ai-text {
             background: linear-gradient(135deg, var(--cyan) 0%, var(--purple) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
-        
         .gradient-text {
-            background: linear-gradient(135deg, var(--viettel) 0%, var(--cyan) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            background: linear-gradient(135deg, var(--red) 0%, var(--cyan) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
-        
-        /* === HERO === */
+
+        /* ===== HERO ===== */
         .hero {
             position: relative;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--navy);
+            background: linear-gradient(160deg, #1A0812 0%, #7B001C 30%, #8B001C 100%);
             overflow: hidden;
-            padding: 6rem 1.5rem 4rem;
+            padding: 6rem 1.5rem 0;
         }
-        
         .hero-orb {
-            position: absolute;
-            border-radius: 50%;
-            pointer-events: none;
+            position: absolute; border-radius: 50%; pointer-events: none;
         }
-        
         .orb-1 {
-            width: 800px; height: 800px;
-            background: radial-gradient(circle, rgba(238,0,51,0.15) 0%, transparent 70%);
-            top: -300px; left: -300px;
+            width: 900px; height: 900px;
+            background: radial-gradient(circle, rgba(238,0,51,0.25) 0%, transparent 65%);
+            top: -350px; left: -350px;
             animation: spin 30s linear infinite;
         }
-        
         .orb-2 {
             width: 700px; height: 700px;
-            background: radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 70%);
-            bottom: -250px; right: -250px;
+            background: radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 65%);
+            bottom: -300px; right: -300px;
             animation: spin 35s linear infinite reverse;
         }
-        
         .orb-3 {
             width: 500px; height: 500px;
-            background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(0,212,255,0.07) 0%, transparent 65%);
             top: 10%; right: 5%;
         }
-        
         @keyframes spin { to { transform: rotate(360deg); } }
-        
-        .hero-inner {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            max-width: 900px;
-        }
-        
+
+        .hero-inner { position: relative; z-index: 10; text-align: center; max-width: 900px; }
+
         .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
+            display: inline-flex; align-items: center; gap: 0.5rem;
             padding: 0.5rem 1.25rem;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 100px;
-            margin-bottom: 2rem;
+            background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 100px; margin-bottom: 2rem;
         }
-        
-        .badge-dot {
-            width: 8px; height: 8px;
-            background: #22c55e;
-            border-radius: 50%;
-            position: relative;
-        }
-        
+        .badge-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; position: relative; }
         .badge-dot::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            background: #22c55e;
-            animation: ping 1.5s ease-out infinite;
+            content: ''; position: absolute; inset: 0; border-radius: 50%;
+            background: #22c55e; animation: ping 1.5s ease-out infinite;
         }
-        
-        @keyframes ping {
-            75% { transform: scale(2.5); opacity: 0; }
-            100% { transform: scale(2.5); opacity: 0; }
-        }
-        
+        @keyframes ping { 75% { transform: scale(2.5); opacity: 0; } 100% { transform: scale(2.5); opacity: 0; } }
         .hero-badge span { color: rgba(255,255,255,0.8); font-size: 0.875rem; font-weight: 500; }
-        
+
         .hero h1 {
-            font-size: clamp(3.5rem, 10vw, 6rem);
-            font-weight: 900;
-            color: var(--white);
-            letter-spacing: -0.03em;
-            line-height: 1.05;
-            margin-bottom: 1.5rem;
+            font-size: clamp(3.5rem, 10vw, 6rem); font-weight: 900;
+            color: var(--white); letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 1.5rem;
         }
-        
         .hero-sub {
             font-size: clamp(1.1rem, 2.5vw, 1.35rem);
-            color: rgba(255,255,255,0.6);
-            max-width: 650px;
-            margin: 0 auto 3rem;
-            line-height: 1.7;
+            color: rgba(255,255,255,0.65); max-width: 650px; margin: 0 auto 3rem; line-height: 1.7;
         }
-        
-        .hero-btns {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            justify-content: center;
-            margin-bottom: 3.5rem;
-        }
-        
-        @media (min-width: 640px) {
-            .hero-btns { flex-direction: row; }
-        }
-        
+        .hero-btns { display: flex; flex-direction: column; gap: 1rem; justify-content: center; margin-bottom: 3.5rem; }
+        @media (min-width: 640px) { .hero-btns { flex-direction: row; } }
+
         .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 1rem 2.25rem;
-            border-radius: 14px;
-            font-weight: 600;
-            font-size: 1.0625rem;
-            transition: all 0.25s;
-            cursor: pointer;
-            border: none;
+            display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+            padding: 1rem 2.25rem; border-radius: 14px; font-weight: 600; font-size: 1.0625rem;
+            transition: all 0.25s; cursor: pointer; border: none;
         }
-        
-        .btn-red {
-            background: var(--viettel);
-            color: var(--white);
-            box-shadow: 0 0 50px rgba(238,0,51,0.35);
-        }
-        
-        .btn-red:hover { background: var(--viettel-dark); transform: translateY(-3px) scale(1.03); }
-        
-        .btn-outline {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.15);
-            color: var(--white);
-        }
-        
-        .btn-outline:hover { background: rgba(255,255,255,0.12); transform: translateY(-3px); }
-        
+        .btn-red { background: var(--red); color: var(--white); box-shadow: 0 0 50px rgba(238,0,51,0.4); }
+        .btn-red:hover { background: var(--red-dark); transform: translateY(-3px) scale(1.03); }
+        .btn-outline-dark { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); color: var(--white); }
+        .btn-outline-dark:hover { background: rgba(255,255,255,0.12); transform: translateY(-3px); }
+
         .hero-code {
-            max-width: 550px;
-            margin: 0 auto;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 16px;
-            padding: 1.5rem 2rem;
-            text-align: left;
-            backdrop-filter: blur(10px);
+            max-width: 550px; margin: 0 auto;
+            background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px; padding: 1.5rem 2rem; text-align: left; backdrop-filter: blur(12px);
         }
-        
         .code-dots { display: flex; gap: 0.5rem; margin-bottom: 1.25rem; }
         .code-dot { width: 12px; height: 12px; border-radius: 50%; }
         .code-dot:nth-child(1) { background: #ef4444; }
         .code-dot:nth-child(2) { background: #eab308; }
         .code-dot:nth-child(3) { background: #22c55e; }
-        
-        .code-text {
-            font-family: 'Courier New', monospace;
-            font-size: 0.9375rem;
-            color: var(--cyan);
-        }
-        
-        .code-text .cm { color: rgba(255,255,255,0.35); }
+        .code-text { font-family: 'Courier New', monospace; font-size: 0.9375rem; color: var(--cyan); }
+        .code-text .cm { color: rgba(255,255,255,0.4); }
         .code-text .kw { color: var(--purple); font-weight: 700; }
-        
-        .scroll-hint {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: bounce 2s infinite;
-        }
-        
-        .scroll-hint span { font-size: 1.75rem; color: rgba(255,255,255,0.25); }
-        
-        @keyframes bounce {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(8px); }
-        }
-        
-        /* === SECTIONS === */
+
+        .scroll-hint { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); animation: bounce 2s infinite; }
+        .scroll-hint span { font-size: 1.75rem; color: rgba(255,255,255,0.2); }
+        @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+
+        /* ===== SECTIONS ===== */
         .section { padding: 6rem 0; }
-        .section-label {
-            display: inline-block;
-            padding: 0.4rem 1.1rem;
-            border-radius: 100px;
-            font-size: 0.8125rem;
-            font-weight: 600;
-            margin-bottom: 1.25rem;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: var(--cyan);
-            letter-spacing: 0.02em;
-        }
-        .section-title {
-            font-size: clamp(2.25rem, 5vw, 3.25rem);
-            font-weight: 800;
-            margin-bottom: 1rem;
-            letter-spacing: -0.025em;
+
+        /* Ambient sections — each has gradient that BEGINS where last ended */
+
+        /* Features: seamless transition from hero bottom #8B001C */
+        .sec-features {
+            background: linear-gradient(180deg,
+                #8B001C 0%,
+                #7B001C 8%,
+                #6B0018 18%,
+                #3D0012 30%,
+                #2A1020 45%,
+                var(--navy) 70%,
+                var(--navy) 100%);
             color: var(--white);
-        }
-        .section-desc {
-            font-size: 1.125rem;
-            color: rgba(255,255,255,0.55);
-            max-width: 600px;
-            line-height: 1.7;
-        }
-        .section-header { text-align: center; margin-bottom: 4rem; }
-        .section-header .section-desc { margin: 0 auto; }
-        
-        /* === AMBIENT GRADIENT SECTIONS === */
-        .ambient-1 {
-            background: linear-gradient(180deg, var(--navy) 0%, #131c2e 50%, var(--navy) 100%);
-        }
-        .ambient-2 {
-            background: linear-gradient(180deg, var(--navy) 0%, #0d1627 50%, var(--navy) 100%);
-        }
-        .ambient-3 {
-            background: var(--navy);
             position: relative;
         }
-        .ambient-3::before {
+        /* Red glow overlay at top to bleed into hero */
+        .sec-features::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(238,0,51,0.2), transparent);
+            height: 150px;
+            background: radial-gradient(ellipse at top center, rgba(139,0,28,0.5) 0%, transparent 70%);
+            pointer-events: none;
         }
-        
-        /* === FEATURES === */
+
+        /* Architecture: navy, subtle purple bleed */
+        .sec-arch {
+            background: linear-gradient(180deg,
+                var(--navy) 0%,
+                #1E1A3A 50%,
+                var(--navy) 100%);
+            color: var(--white);
+        }
+
+        /* Stats: navy bottom, cyan tint */
+        .sec-stats {
+            background: linear-gradient(180deg,
+                var(--navy) 0%,
+                #0D1A2E 50%,
+                var(--navy) 100%);
+            color: var(--white);
+        }
+
+        /* Platforms: navy top, starts lightening toward gray */
+        .sec-platforms {
+            background: linear-gradient(180deg,
+                var(--navy) 0%,
+                #222840 40%,
+                #3A4060 70%,
+                #4A5470 100%);
+            color: var(--white);
+        }
+
+        /* CTA: light gray top, almost white */
+        .sec-cta {
+            background: linear-gradient(180deg,
+                #4A5470 0%,
+                var(--gray-light) 40%,
+                var(--white) 100%);
+            color: var(--text-primary);
+        }
+
+        .section-label {
+            display: inline-block; padding: 0.4rem 1.1rem; border-radius: 100px;
+            font-size: 0.8125rem; font-weight: 600; margin-bottom: 1.25rem; letter-spacing: 0.02em;
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: var(--cyan);
+        }
+        .sec-cta .section-label {
+            background: rgba(238,0,51,0.08); border: 1px solid rgba(238,0,51,0.15); color: var(--red);
+        }
+
+        .section-title {
+            font-size: clamp(2.25rem, 5vw, 3.25rem); font-weight: 800;
+            margin-bottom: 1rem; letter-spacing: -0.025em; color: var(--white);
+        }
+        .sec-cta .section-title { color: var(--navy); }
+
+        .section-desc { font-size: 1.125rem; max-width: 600px; line-height: 1.7; color: rgba(255,255,255,0.55); }
+        .sec-cta .section-desc { color: #64748B; }
+
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        .section-header .section-desc { margin: 0 auto; }
+
+        /* ===== FEATURES GRID ===== */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
         }
-        
         .feature-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
-            padding: 2rem;
-            position: relative;
-            transition: all 0.35s ease;
-            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px; padding: 2rem; position: relative;
+            transition: all 0.35s ease; backdrop-filter: blur(10px);
         }
-        
         .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--viettel), var(--cyan));
-            opacity: 0;
-            transition: opacity 0.3s;
-            border-radius: 20px 20px 0 0;
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, var(--red), var(--cyan));
+            opacity: 0; transition: opacity 0.3s; border-radius: 20px 20px 0 0;
         }
-        
-        .feature-card:hover {
-            transform: translateY(-8px);
-            background: rgba(255,255,255,0.07);
-            border-color: rgba(238,0,51,0.2);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-        }
-        
+        .feature-card:hover { transform: translateY(-8px); background: rgba(255,255,255,0.08); border-color: rgba(238,0,51,0.25); box-shadow: 0 20px 50px rgba(0,0,0,0.25); }
         .feature-card:hover::before { opacity: 1; }
-        
+
         .feature-icon {
-            width: 56px; height: 56px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.25rem;
-            font-size: 1.5rem;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.08);
+            width: 56px; height: 56px; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 1.25rem; font-size: 1.5rem;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
         }
-        
-        .feature-card h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--white);
-            margin-bottom: 0.75rem;
-        }
-        
-        .feature-card p {
-            color: rgba(255,255,255,0.5);
-            line-height: 1.7;
-            font-size: 0.9375rem;
-        }
-        
-        /* === ARCHITECTURE === */
-        .arch-flow {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0;
-        }
-        
+        .feature-card h3 { font-size: 1.25rem; font-weight: 700; color: var(--white); margin-bottom: 0.75rem; }
+        .feature-card p { color: rgba(255,255,255,0.5); line-height: 1.7; font-size: 0.9375rem; }
+
+        /* ===== ARCHITECTURE ===== */
+        .arch-flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
         .arch-box {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 1.75rem 2.5rem;
-            text-align: center;
-            border: 1px solid var(--card-border);
-            width: 100%;
-            max-width: 420px;
-            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px; padding: 1.75rem 2.5rem; text-align: center;
+            width: 100%; max-width: 420px; backdrop-filter: blur(10px);
         }
-        
-        .arch-box-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-            color: var(--white);
-        }
-        
-        .arch-box-sub {
-            font-size: 0.875rem;
-            color: rgba(255,255,255,0.35);
-        }
-        
+        .arch-box-title { font-size: 1.3rem; font-weight: 700; color: var(--white); margin-bottom: 0.25rem; }
+        .arch-box-sub { font-size: 0.875rem; color: rgba(255,255,255,0.35); }
         .arch-box.glow-cyan {
             border-color: rgba(0,212,255,0.25);
             box-shadow: 0 0 50px rgba(0,212,255,0.1), inset 0 0 30px rgba(0,212,255,0.03);
             animation: float 3.5s ease-in-out infinite;
         }
-        
         .arch-box.glow-cyan .arch-box-title { color: var(--cyan); }
-        
         .arch-box.glow-purple {
             background: linear-gradient(135deg, rgba(238,0,51,0.08), rgba(124,58,237,0.08));
             border-color: rgba(124,58,237,0.25);
             box-shadow: 0 0 50px rgba(124,58,237,0.1), inset 0 0 30px rgba(124,58,237,0.03);
             animation: float 3.5s ease-in-out infinite 0.5s;
         }
-        
         .arch-box.glow-purple .arch-box-title { color: var(--white); }
-        
         .arch-box.light-box .arch-box-title { color: rgba(255,255,255,0.9); }
-        
-        .arch-arrow {
-            font-size: 2rem;
-            color: rgba(0,212,255,0.25);
-            line-height: 1;
-            padding: 0.5rem 0;
-        }
-        
-        .arch-tags {
-            display: flex;
-            gap: 0.75rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 0.75rem;
-        }
-        
+        .arch-arrow { font-size: 2rem; color: rgba(0,212,255,0.25); line-height: 1; padding: 0.5rem 0; }
+        .arch-tags { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-top: 0.75rem; }
         .arch-tag {
-            background: rgba(255,255,255,0.06);
-            padding: 0.3rem 0.85rem;
-            border-radius: 8px;
-            font-size: 0.8125rem;
-            color: rgba(255,255,255,0.6);
+            background: rgba(255,255,255,0.06); padding: 0.3rem 0.85rem;
+            border-radius: 8px; font-size: 0.8125rem; color: rgba(255,255,255,0.6);
             border: 1px solid rgba(255,255,255,0.06);
         }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-14px); }
-        }
-        
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
         .arch-note {
-            margin-top: 3.5rem;
-            background: var(--card-bg);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 16px;
-            padding: 1.5rem 2rem;
-            text-align: center;
-            max-width: 550px;
-            margin-left: auto;
-            margin-right: auto;
-            backdrop-filter: blur(10px);
+            margin-top: 3.5rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px; padding: 1.5rem 2rem; text-align: center;
+            max-width: 550px; margin-left: auto; margin-right: auto; backdrop-filter: blur(10px);
         }
-        
-        .arch-note-title {
-            color: var(--white);
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            font-size: 1rem;
-        }
-        
+        .arch-note-title { color: var(--white); font-weight: 600; margin-bottom: 0.5rem; font-size: 1rem; }
         .arch-note p { color: rgba(255,255,255,0.45); font-size: 0.9rem; line-height: 1.6; }
-        
-        /* === STATS === */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-        }
-        
-        @media (min-width: 768px) {
-            .stats-grid { grid-template-columns: repeat(4, 1fr); }
-        }
-        
+
+        /* ===== STATS ===== */
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+        @media (min-width: 768px) { .stats-grid { grid-template-columns: repeat(4, 1fr); } }
         .stat-item { text-align: center; }
-        
         .stat-num {
-            font-size: clamp(3rem, 7vw, 4.5rem);
-            font-weight: 900;
-            line-height: 1;
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.02em;
+            font-size: clamp(3rem, 7vw, 4.5rem); font-weight: 900; line-height: 1;
+            margin-bottom: 0.5rem; letter-spacing: -0.02em;
         }
-        
-        .stat-lbl {
-            color: rgba(255,255,255,0.45);
-            font-size: 0.9375rem;
-            font-weight: 500;
-        }
-        
-        /* === PLATFORMS === */
-        .platforms-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-        }
-        
-        @media (min-width: 640px) {
-            .platforms-grid { grid-template-columns: repeat(3, 1fr); }
-        }
-        
-        @media (min-width: 1024px) {
-            .platforms-grid { grid-template-columns: repeat(5, 1fr); }
-        }
-        
+        .stat-lbl { font-size: 0.9375rem; font-weight: 500; color: rgba(255,255,255,0.45); }
+
+        /* ===== PLATFORMS ===== */
+        .platforms-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+        @media (min-width: 640px) { .platforms-grid { grid-template-columns: repeat(5, 1fr); } }
         .platform-item {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 1.5rem 1rem;
-            text-align: center;
-            transition: all 0.25s ease;
-            backdrop-filter: blur(8px);
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px; padding: 1.5rem 1rem; text-align: center;
+            transition: all 0.25s ease; backdrop-filter: blur(8px);
         }
-        
-        .platform-item:hover {
-            transform: translateY(-5px);
-            background: rgba(255,255,255,0.08);
-            border-color: rgba(238,0,51,0.3);
-            box-shadow: 0 15px 40px rgba(238,0,51,0.12);
-        }
-        
+        .platform-item:hover { transform: translateY(-5px); background: rgba(255,255,255,0.08); border-color: rgba(238,0,51,0.3); box-shadow: 0 15px 40px rgba(238,0,51,0.12); }
         .platform-item .icon { font-size: 2rem; margin-bottom: 0.5rem; display: block; }
         .platform-item .name { font-weight: 600; font-size: 0.875rem; color: rgba(255,255,255,0.7); }
-        
-        /* === CTA === */
-        .cta-section {
-            padding: 8rem 1.5rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            background: var(--navy);
-        }
-        
+
+        /* ===== CTA ===== */
+        .cta-section { padding: 8rem 1.5rem; text-align: center; position: relative; overflow: hidden; }
         .cta-glow {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 900px;
-            height: 500px;
-            background: radial-gradient(ellipse, rgba(238,0,51,0.08) 0%, rgba(124,58,237,0.08) 40%, transparent 70%);
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 900px; height: 500px;
+            background: radial-gradient(ellipse, rgba(238,0,51,0.1) 0%, rgba(124,58,237,0.08) 40%, transparent 70%);
             pointer-events: none;
         }
-        
         .cta-inner { position: relative; z-index: 10; }
-        
         .cta-title {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 900;
-            color: var(--white);
-            margin-bottom: 1rem;
-            letter-spacing: -0.025em;
+            font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900;
+            color: var(--navy); margin-bottom: 1rem; letter-spacing: -0.025em;
         }
-        
-        .cta-desc {
-            font-size: 1.25rem;
-            color: rgba(255,255,255,0.5);
-            max-width: 520px;
-            margin: 0 auto 2.5rem;
-            line-height: 1.7;
-        }
-        
+        .cta-desc { font-size: 1.25rem; color: #64748B; max-width: 520px; margin: 0 auto 2.5rem; line-height: 1.7; }
         .cta-btns { display: flex; flex-direction: column; gap: 1rem; justify-content: center; }
-        
-        @media (min-width: 640px) {
-            .cta-btns { flex-direction: row; }
-        }
-        
-        /* === FOOTER === */
+        @media (min-width: 640px) { .cta-btns { flex-direction: row; } }
+
+        /* ===== FOOTER ===== */
         footer {
-            background: linear-gradient(180deg, transparent, rgba(0,0,0,0.3));
-            color: rgba(255,255,255,0.35);
-            padding: 3.5rem 1.5rem;
-            text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            background: var(--navy-deep); padding: 3.5rem 1.5rem; text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05); color: rgba(255,255,255,0.35);
         }
-        
-        footer .brand {
-            font-family: 'Be Vietnam Pro', sans-serif;
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: rgba(255,255,255,0.6);
-            margin-bottom: 0.5rem;
-            letter-spacing: 0.02em;
-        }
-        
-        footer .links {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            margin-top: 1rem;
-        }
-        
-        footer .links a {
-            color: rgba(255,255,255,0.4);
-            font-size: 0.875rem;
-            transition: color 0.2s;
-        }
-        
-        footer .links a:hover { color: var(--viettel); }
-        
-        /* === AUTHOR MARK === */
+        footer .brand { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 700; font-size: 1rem; color: rgba(255,255,255,0.5); margin-bottom: 0.5rem; letter-spacing: 0.03em; }
+        footer .links { display: flex; gap: 1.5rem; justify-content: center; margin-top: 1rem; }
+        footer .links a { color: rgba(255,255,255,0.35); font-size: 0.875rem; transition: color 0.2s; }
+        footer .links a:hover { color: var(--red); }
+
+        /* ===== AUTHOR MARK ===== */
         .author-mark {
-            position: fixed;
-            bottom: 1rem;
-            right: 1rem;
-            background: rgba(15,23,42,0.95);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(238,0,51,0.35);
-            border-radius: 8px;
-            padding: 0.5rem 1rem;
-            font-family: 'Courier New', monospace;
-            font-size: 0.75rem;
-            color: rgba(255,255,255,0.5);
-            z-index: 9999;
-            letter-spacing: 0.05em;
+            position: fixed; bottom: 1rem; right: 1rem;
+            background: rgba(15,23,42,0.95); backdrop-filter: blur(12px);
+            border: 1px solid rgba(238,0,51,0.35); border-radius: 8px;
+            padding: 0.5rem 1rem; font-family: 'Courier New', monospace;
+            font-size: 0.75rem; color: rgba(255,255,255,0.5); z-index: 9999; letter-spacing: 0.05em;
         }
     </style>
 </head>
 <body>
 
-    <!-- HERO -->
     <header class="hero">
         <div class="hero-orb orb-1" aria-hidden="true"></div>
         <div class="hero-orb orb-2" aria-hidden="true"></div>
         <div class="hero-orb orb-3" aria-hidden="true"></div>
-        
         <div class="hero-inner">
             <div class="hero-badge">
                 <div class="badge-dot"></div>
                 <span>Open Source · Nous Research</span>
             </div>
-            
             <h1>Hermes <span class="ai-text">Agent</span></h1>
             <p class="hero-sub">Trợ lý AI tự động chạy trên terminal, Telegram, Discord — ghi nhớ mọi thứ, học từ kinh nghiệm, làm việc không ngừng nghỉ.</p>
-            
             <div class="hero-btns">
                 <a href="https://hermes-agent.nousresearch.com/docs/" target="_blank" class="btn btn-red">📖 Tài liệu</a>
-                <a href="https://github.com/NousResearch/hermes-agent" target="_blank" class="btn btn-outline">⭐ GitHub</a>
+                <a href="https://github.com/NousResearch/hermes-agent" target="_blank" class="btn btn-outline-dark">⭐ GitHub</a>
             </div>
-            
             <div class="hero-code">
-                <div class="code-dots">
-                    <div class="code-dot"></div>
-                    <div class="code-dot"></div>
-                    <div class="code-dot"></div>
-                </div>
+                <div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div>
                 <div class="code-text">
                     <span class="cm"># Cài đặt nhanh</span><br>
                     curl -fsSL .../install.sh | bash<br><br>
@@ -641,50 +368,42 @@
                 </div>
             </div>
         </div>
-        
         <div class="scroll-hint" aria-hidden="true"><span>↓</span></div>
     </header>
 
-    <!-- FEATURES -->
-    <section class="section ambient-1" id="features" aria-labelledby="features-h2">
+    <section class="section sec-features" id="features">
         <div class="container">
             <div class="section-header">
                 <span class="section-label">Tính năng</span>
-                <h2 class="section-title" id="features-h2">Vượt trội trên mọi phương diện</h2>
+                <h2 class="section-title">Vượt trội trên mọi phương diện</h2>
                 <p class="section-desc">Không chỉ là một chatbot — Hermes là một agent tự trị với bộ nhớ, kỹ năng tích lũy, và kết nối đa nền tảng.</p>
             </div>
-            
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">🧠</div>
                     <h3>Bộ nhớ xuyên suốt</h3>
                     <p>Ghi nhớ quyền, sở thích, môi trường làm việc và bài học từ mọi phiên. Không cần nhắc lại — Hermes tự nhớ mọi thứ.</p>
                 </div>
-                
                 <div class="feature-card">
                     <div class="feature-icon">📚</div>
                     <h3>Hệ thống Skills</h3>
                     <p>Tự động lưu quy trình đã giải quyết thành skill để tái sử dụng. Càng dùng càng thông minh.</p>
                 </div>
-                
                 <div class="feature-card">
                     <div class="feature-icon">💬</div>
                     <h3>Đa nền tảng</h3>
                     <p>Một agent duy nhất chạy trên Telegram, Discord, Slack, Email — kết nối mọi nơi, đồng bộ mọi thứ.</p>
                 </div>
-                
                 <div class="feature-card">
                     <div class="feature-icon">🔄</div>
                     <h3>Đổi model dễ dàng</h3>
                     <p>Dùng Claude, GPT-4, DeepSeek, Gemini qua 20+ provider. Chuyển đổi linh hoạt, không cần cấu hình lại.</p>
                 </div>
-                
                 <div class="feature-card">
                     <div class="feature-icon">⏰</div>
                     <h3>Cron & Webhook</h3>
                     <p>Lên lịch tác vụ tự động, nhận trigger từ external events. Agent làm việc 24/7 theo kịch bản bạn đặt.</p>
                 </div>
-                
                 <div class="feature-card">
                     <div class="feature-icon">🔧</div>
                     <h3>Mở rộng thoải mái</h3>
@@ -694,23 +413,19 @@
         </div>
     </section>
 
-    <!-- ARCHITECTURE -->
-    <section class="section ambient-2" id="architecture" aria-labelledby="arch-h2">
+    <section class="section sec-arch" id="architecture">
         <div class="container">
             <div class="section-header">
                 <span class="section-label">Kiến trúc</span>
-                <h2 class="section-title" id="arch-h2">Mọi thứ kết nối với nhau</h2>
+                <h2 class="section-title">Mọi thứ kết nối với nhau</h2>
                 <p class="section-desc">Từ LLM model đến messaging platform — tất cả trong một hệ thống nhất quán.</p>
             </div>
-            
             <div class="arch-flow">
                 <div class="arch-box glow-cyan">
                     <div class="arch-box-title">LLM Provider</div>
                     <div class="arch-box-sub">OpenRouter · Anthropic · DeepSeek...</div>
                 </div>
-                
                 <div class="arch-arrow">↓</div>
-                
                 <div class="arch-box glow-purple">
                     <div class="arch-box-title">Hermes Core</div>
                     <div class="arch-tags">
@@ -719,15 +434,12 @@
                         <span class="arch-tag">Tools</span>
                     </div>
                 </div>
-                
                 <div class="arch-arrow">↓</div>
-                
                 <div class="arch-box light-box">
                     <div class="arch-box-title">Messaging Gateway</div>
                     <div class="arch-box-sub">Telegram · Discord · Email...</div>
                 </div>
             </div>
-            
             <div class="arch-note">
                 <div class="arch-note-title">🔄 Credential Pool</div>
                 <p>Xoay vòng nhiều API key tự động — khi key này hết quota, key khác thế vào. Không bao giờ chết giữa chừng.</p>
@@ -735,14 +447,12 @@
         </div>
     </section>
 
-    <!-- STATS -->
-    <section class="section ambient-3" id="stats" aria-labelledby="stats-h2">
+    <section class="section sec-stats" id="stats">
         <div class="container">
             <div class="section-header">
                 <span class="section-label">Số liệu</span>
-                <h2 class="section-title" id="stats-h2">Được tin dùng bởi cộng đồng</h2>
+                <h2 class="section-title">Được tin dùng bởi cộng đồng</h2>
             </div>
-            
             <div class="stats-grid">
                 <div class="stat-item">
                     <div class="stat-num ai-text">20+</div>
@@ -764,15 +474,13 @@
         </div>
     </section>
 
-    <!-- PLATFORMS -->
-    <section class="section ambient-1" id="platforms" aria-labelledby="platforms-h2">
+    <section class="section sec-platforms" id="platforms">
         <div class="container">
             <div class="section-header">
                 <span class="section-label">Kết nối</span>
-                <h2 class="section-title" id="platforms-h2">Hỗ trợ mọi nền tảng</h2>
+                <h2 class="section-title">Hỗ trợ mọi nền tảng</h2>
                 <p class="section-desc">Tích hợp vào hạ tầng hiện có của bạn một cách dễ dàng.</p>
             </div>
-            
             <div class="platforms-grid">
                 <div class="platform-item"><span class="icon">📱</span><span class="name">Telegram</span></div>
                 <div class="platform-item"><span class="icon">💬</span><span class="name">Discord</span></div>
@@ -793,23 +501,21 @@
         </div>
     </section>
 
-    <!-- CTA -->
-    <section class="cta-section" id="cta" aria-labelledby="cta-h2">
+    <section class="cta-section sec-cta" id="cta">
         <div class="cta-glow" aria-hidden="true"></div>
         <div class="cta-inner">
-            <h2 class="cta-title" id="cta-h2">Sẵn sàng bắt đầu?</h2>
+            <h2 class="cta-title">Sẵn sàng bắt đầu?</h2>
             <p class="cta-desc">Cài đặt trong 30 giây và trò chuyện với Hermes ngay hôm nay.</p>
             <div class="cta-btns">
                 <a href="https://hermes-agent.nousresearch.com/docs/" target="_blank" class="btn btn-red">🚀 Bắt đầu ngay</a>
-                <a href="https://github.com/NousResearch/hermes-agent" target="_blank" class="btn btn-outline">💻 Xem Source</a>
+                <a href="https://github.com/NousResearch/hermes-agent" target="_blank" class="btn" style="background: var(--navy); color: var(--white);">💻 Xem Source</a>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer>
-        <div class="brand">trongdh-GNOC2</div>
-        <p style="font-size: 0.8rem; color: rgba(255,255,255,0.3);">Powered by Hermes Agent · Open Source</p>
+        <div class="brand">Design by trongdh-GNOC2</div>
+        <p style="font-size: 0.75rem; color: rgba(255,255,255,0.25); margin-top: 0.5rem;">Powered by Hermes Agent · Open Source</p>
         <div class="links">
             <a href="https://hermes-agent.nousresearch.com/docs/" target="_blank">Tài liệu</a>
             <a href="https://github.com/NousResearch/hermes-agent" target="_blank">GitHub</a>
@@ -817,8 +523,6 @@
         </div>
     </footer>
 
-    <!-- Author Mark -->
     <div class="author-mark" aria-label="Author: trongdh-GNOC2">trongdh-GNOC2</div>
-
 </body>
 </html>
