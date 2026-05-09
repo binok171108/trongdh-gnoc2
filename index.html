@@ -323,21 +323,99 @@
 
         /* ===== FOOTER ===== */
         footer {
-            background: var(--navy-deep); padding: 3.5rem 1.5rem; text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.05); color: rgba(255,255,255,0.35);
+            background: var(--navy-deep); padding: 3rem 1.5rem 2rem; text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05); color: rgba(255,255,255,0.4);
+            position: relative;
         }
-        footer .brand { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 700; font-size: 1rem; color: rgba(255,255,255,0.5); margin-bottom: 0.5rem; letter-spacing: 0.03em; }
-        footer .links { display: flex; gap: 1.5rem; justify-content: center; margin-top: 1rem; }
-        footer .links a { color: rgba(255,255,255,0.35); font-size: 0.875rem; transition: color 0.2s; }
-        footer .links a:hover { color: var(--red); }
+        footer::before {
+            content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 120px; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--red) 20%, var(--cyan) 80%, transparent);
+            opacity: 0.5;
+        }
+        .footer-inner { max-width: 1100px; margin: 0 auto; }
+        .footer-product {
+            font-family: 'Be Vietnam Pro', sans-serif; font-weight: 700;
+            font-size: 1.125rem; color: rgba(255,255,255,0.85);
+            letter-spacing: 0.02em; margin-bottom: 0.4rem;
+        }
+        .footer-product .ai-text { background: linear-gradient(135deg, var(--cyan), var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .footer-tagline {
+            font-size: 0.875rem; color: rgba(255,255,255,0.4);
+            margin-bottom: 1.5rem;
+        }
+        footer .links { display: flex; gap: 1.75rem; justify-content: center; margin: 1rem 0 1.75rem; }
+        footer .links a {
+            color: rgba(255,255,255,0.55); font-size: 0.875rem; font-weight: 500;
+            transition: color 0.2s;
+        }
+        footer .links a:hover { color: var(--cyan); }
+
+        .footer-divider {
+            height: 1px; background: rgba(255,255,255,0.06);
+            margin: 1.5rem auto; max-width: 600px;
+        }
+
+        .designer-credit {
+            display: inline-flex; align-items: center; gap: 0.65rem;
+            padding: 0.6rem 1.1rem;
+            background: rgba(255,255,255,0.025);
+            border: 1px solid rgba(0,212,255,0.2);
+            border-radius: 999px;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 0.875rem;
+            transition: all 0.25s ease;
+        }
+        .designer-credit:hover {
+            border-color: rgba(0,212,255,0.5);
+            background: rgba(0,212,255,0.05);
+            transform: translateY(-1px);
+        }
+        .designer-credit .label {
+            color: rgba(255,255,255,0.45); font-weight: 400;
+        }
+        .designer-credit .designer-name {
+            color: var(--cyan); font-weight: 700; letter-spacing: 0.01em;
+        }
+        .designer-credit .designer-team {
+            color: rgba(255,255,255,0.7); font-weight: 600;
+            padding: 0.15rem 0.5rem;
+            background: rgba(124,58,237,0.15);
+            border-radius: 4px; font-size: 0.78rem; letter-spacing: 0.04em;
+        }
+
+        .footer-copyright {
+            font-size: 0.75rem; color: rgba(255,255,255,0.25);
+            margin-top: 1.25rem; letter-spacing: 0.03em;
+        }
 
         /* ===== AUTHOR MARK ===== */
         .author-mark {
             position: fixed; bottom: 1rem; right: 1rem;
-            background: rgba(15,23,42,0.95); backdrop-filter: blur(12px);
-            border: 1px solid rgba(238,0,51,0.35); border-radius: 8px;
-            padding: 0.5rem 1rem; font-family: 'Courier New', monospace;
-            font-size: 0.75rem; color: rgba(255,255,255,0.5); z-index: 9999; letter-spacing: 0.05em;
+            background: rgba(15,23,42,0.92); backdrop-filter: blur(12px);
+            border: 1px solid rgba(0,212,255,0.25); border-radius: 999px;
+            padding: 0.4rem 0.85rem; font-family: 'Be Vietnam Pro', sans-serif;
+            font-size: 0.7rem; font-weight: 600;
+            color: rgba(255,255,255,0.7); z-index: 9999; letter-spacing: 0.03em;
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: all 0.25s ease;
+        }
+        .author-mark::before {
+            content: ''; width: 6px; height: 6px; border-radius: 50%;
+            background: var(--cyan); box-shadow: 0 0 8px var(--cyan);
+            animation: pulse-dot 2s infinite;
+        }
+        .author-mark:hover {
+            border-color: rgba(0,212,255,0.6);
+            color: rgba(255,255,255,0.95);
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.2); }
+        }
+        @media (max-width: 640px) {
+            .author-mark { font-size: 0.65rem; padding: 0.35rem 0.7rem; }
         }
     </style>
 </head>
@@ -514,15 +592,28 @@
     </section>
 
     <footer>
-        <div class="brand">Design by trongdh-GNOC2</div>
-        <p style="font-size: 0.75rem; color: rgba(255,255,255,0.25); margin-top: 0.5rem;">Powered by Hermes Agent · Open Source</p>
-        <div class="links">
-            <a href="https://hermes-agent.nousresearch.com/docs/" target="_blank">Tài liệu</a>
-            <a href="https://github.com/NousResearch/hermes-agent" target="_blank">GitHub</a>
-            <a href="https://discord.gg/hermes" target="_blank">Discord</a>
+        <div class="footer-inner">
+            <div class="footer-product">Hermes <span class="ai-text">Agent</span></div>
+            <div class="footer-tagline">Trợ lý AI tự động · Open Source</div>
+
+            <div class="links">
+                <a href="https://hermes-agent.nousresearch.com/docs/" target="_blank">Tài liệu</a>
+                <a href="https://github.com/NousResearch/hermes-agent" target="_blank">GitHub</a>
+                <a href="https://discord.gg/hermes" target="_blank">Discord</a>
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <div class="designer-credit" title="Thiết kế bởi trongdh - GNOC2">
+                <span class="label">Thiết kế bởi</span>
+                <span class="designer-name">trongdh</span>
+                <span class="designer-team">GNOC2</span>
+            </div>
+
+            <div class="footer-copyright">© 2026 · Powered by Hermes Agent</div>
         </div>
     </footer>
 
-    <div class="author-mark" aria-label="Author: trongdh-GNOC2">trongdh-GNOC2</div>
+    <div class="author-mark" aria-label="Designer: trongdh - GNOC2">trongdh · GNOC2</div>
 </body>
 </html>
